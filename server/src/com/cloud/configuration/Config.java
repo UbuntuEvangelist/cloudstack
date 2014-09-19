@@ -2057,7 +2057,12 @@ public enum Config {
     PublishAlertEvent("Advanced", ManagementServer.class, Boolean.class, "publish.alert.events", "true", "enable or disable publishing of alert events on the event bus", null),
     PublishResourceStateEvent("Advanced", ManagementServer.class, Boolean.class, "publish.resource.state.events", "true", "enable or disable publishing of alert events on the event bus", null),
     PublishUsageEvent("Advanced", ManagementServer.class, Boolean.class, "publish.usage.events", "true", "enable or disable publishing of usage events on the event bus", null),
-    PublishAsynJobEvent("Advanced", ManagementServer.class, Boolean.class, "publish.async.job.events", "true", "enable or disable publishing of usage events on the event bus", null);
+    PublishAsynJobEvent("Advanced", ManagementServer.class, Boolean.class, "publish.async.job.events", "true", "enable or disable publishing of usage events on the event bus", null),
+
+    // StatsCollector
+    StatsOutPutGraphiteHost("Advanced", ManagementServer.class, String.class, "stats.output.graphite.host", "", "Graphite host to send statistics to", null),
+    StatsOutPutGraphitePort("Advanced", ManagementServer.class, Integer.class, "stats.output.graphite.port", "2003", "The port of the graphite host to send statistics to", null),
+    StatsOutPutGraphitePrefix("Advanced", ManagementServer.class, String.class, "stats.output.graphite.prefix", "", "Prefix to append to statistics going to Graphite", null);
 
     private final String _category;
     private final Class<?> _componentClass;

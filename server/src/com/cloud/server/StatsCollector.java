@@ -43,6 +43,8 @@ import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.cloudstack.storage.datastore.db.ImageStoreDao;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
+import org.apache.cloudstack.graphite.GraphiteClient;
+import org.apache.cloudstack.graphite.GraphiteException;
 
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
@@ -194,6 +196,11 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
     int vmDiskStatsInterval = 0;
     List<Long> hostIds = null;
 
+    String graphiteHost = null;
+    int graphitePort = -1;
+    String graphitePrefix = null;
+    boolean graphiteEnabled = false;
+
     private ScheduledExecutorService _diskStatsUpdateExecutor;
     private int _usageAggregationRange = 1440;
     private String _usageTimeZone = "GMT";
@@ -232,6 +239,17 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         volumeStatsInterval = NumbersUtil.parseLong(configs.get("volume.stats.interval"), -1L);
         autoScaleStatsInterval = NumbersUtil.parseLong(configs.get("autoscale.stats.interval"), 60000L);
         vmDiskStatsInterval = NumbersUtil.parseInt(configs.get("vm.disk.stats.interval"), 0);
+
+        graphiteHost = configs.get("stats.output.graphite.host");
+        graphitePort = NumbersUtil.parseInt(configs.get("stats.output.graphite.port"), 2003);
+        graphitePrefix = configs.get("stats.output.graphite.prefix");
+
+        if (!graphiteHost.equals("")) {
+            graphiteEnabled = true;
+            if (!graphitePrefix.equals("")) {
+                graphitePrefix += ".";
+            }
+        }
 
         if (hostStatsInterval > 0) {
             _executor.scheduleWithFixedDelay(new HostCollector(), 15000L, hostStatsInterval, TimeUnit.MILLISECONDS);
@@ -372,6 +390,9 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.SecondaryStorageVM.toString());
                 List<HostVO> hosts = _hostDao.search(sc, null);
 
+                /* HashMap for metrics to be send to Graphite */
+                HashMap metrics = new HashMap<String, Integer>();
+
                 for (HostVO host : hosts) {
                     List<UserVmVO> vms = _userVmDao.listRunningByHostId(host.getId());
                     List<Long> vmIds = new ArrayList<Long>();
@@ -407,12 +428,42 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
 
                                     _VmStats.put(vmId, statsInMemory);
                                 }
+
+                                /**
+                                    Add statistics to HashMap when they should be send to Graphite
+                                    All statistics go into one HashMap and will be send at once using the GraphiteClient
+                                */
+                                if (graphiteEnabled) {
+                                    VMInstanceVO vmVO = _vmInstance.findById(vmId);
+                                    String vmName = vmVO.getInstanceName();
+
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".cpu.num", statsForCurrentIteration.getNumCPUs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".cpu.utilization", statsForCurrentIteration.getCPUUtilization());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".network.read_kbs", statsForCurrentIteration.getNetworkReadKBs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".network.write_kbs", statsForCurrentIteration.getNetworkWriteKBs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".disk.write_kbs", statsForCurrentIteration.getDiskWriteKBs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".disk.read_kbs", statsForCurrentIteration.getDiskReadKBs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".disk.write_iops", statsForCurrentIteration.getDiskWriteIOs());
+                                    metrics.put(graphitePrefix + "cloudstack.stats.instances." + vmName + ".disk.read_iops", statsForCurrentIteration.getDiskReadIOs());
+                                }
+
                             }
                         }
 
                     } catch (Exception e) {
                         s_logger.debug("Failed to get VM stats for host with ID: " + host.getId());
                         continue;
+                    }
+                }
+
+                /* Send the statistics to Graphite */
+                if (graphiteEnabled) {
+                    try {
+                        s_logger.debug("Sending VmStats to Graphite host " + graphiteHost + ":" + graphitePort);
+                        GraphiteClient g = new GraphiteClient(graphiteHost, graphitePort);
+                        g.sendMetrics(metrics);
+                    } catch (GraphiteException e) {
+                        s_logger.debug("Failed sending VmStats to Graphite host " + graphiteHost + ":" + graphitePort + ": " + e.getMessage());
                     }
                 }
 

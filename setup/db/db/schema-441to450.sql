@@ -739,3 +739,6 @@ INSERT IGNORE INTO `cloud`.`guest_os_hypervisor` (uuid,hypervisor_type, hypervis
 
 INSERT IGNORE INTO `cloud`.`hypervisor_capabilities`(uuid, hypervisor_type, hypervisor_version, max_guests_limit, security_group_enabled, max_data_volumes_limit, storage_motion_supported) VALUES (UUID(), 'XenServer', '6.5.0', 100, 1, 13, 1);
 
+INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'management-server', "stats.output.graphite.host", "", "Graphite host to send statistics to", "", NULL, NULL, 0);
+INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'management-server', "stats.output.graphite.port", "2003", "The port of the graphite host to send statistics to", "2003", NULL, NULL, 0);
+INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'management-server', "stats.output.graphite.prefix", "", "Prefix to append to statistics going to Graphite", "", NULL, NULL, 0);
