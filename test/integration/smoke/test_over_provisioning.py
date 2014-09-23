@@ -17,12 +17,12 @@
 """ Test for storage.overprovisioning.factor update
 """
 #Import Local Modules
+import pytest
+
 from marvin.cloudstackTestCase import *
 from marvin.cloudstackAPI import *
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import pytest
+
 #Import System modules
 
 class TestUpdateOverProvision(cloudstackTestCase):

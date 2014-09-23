@@ -17,14 +17,13 @@
 """ P1 tests for reset Vm on reboot
 """
 #Import Local Modules
-import marvin
-from marvin.codes import FAILED
+import pytest
+
 from marvin.cloudstackTestCase import *
 from marvin.cloudstackAPI import *
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import pytest
+from marvin.lib.cloudstack.common import *
+
 
 _multiprocess_shared_ = True
 

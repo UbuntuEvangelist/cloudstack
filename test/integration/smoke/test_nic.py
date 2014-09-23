@@ -15,19 +15,16 @@
 # specific language governing permissions and limitations
 # under the License.
 """ NIC tests for VM """
-import marvin
-from marvin.codes import FAILED
-from marvin.cloudstackTestCase import *
-from marvin.cloudstackAPI import *
-from marvin.sshClient import SshClient
-from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import pytest
-
 import signal
 import sys
 import time
+
+import pytest
+
+from marvin.cloudstackTestCase import *
+from marvin.lib.utils import *
+from marvin.lib.cloudstack.common import *
+
 
 class TestNic(cloudstackTestCase):
 

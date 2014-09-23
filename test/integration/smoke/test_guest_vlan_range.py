@@ -17,14 +17,12 @@
 """ P1 tests for Dedicating Guest Vlan Ranges
 """
 #Import Local Modules
-import marvin
 import pytest
+
 from marvin.cloudstackTestCase import *
-from marvin.cloudstackAPI import *
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import datetime
+from marvin.lib.cloudstack.common import *
+
 
 class TestDedicateGuestVlanRange(cloudstackTestCase):
 

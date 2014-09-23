@@ -16,37 +16,25 @@
 # specific language governing permissions and limitations
 # under the License.
 import pytest
+from marvin.lib.cloudstack.base import SimulatorMock
+from marvin.cloudstackException import CloudstackAPIException
 
-'''
-@pytest.mark.tags(tags=["advanced"], required_hardware="false")
-def test_01_create_disk_offering(vm):
-    assert vm is not None
-'''
+#volume stucks in creating state if creating volume from snapshot failed
+@pytest.mark.tags(hypervisor_in=["simulator"])
+def test_CS_18306(vm, api_client):
+    nvm = vm.vm
+    mock = SimulatorMock.create(api_client,"CreateSnapshotCmd", zoneid=vm.zone.id)
 
-import time
+    rootVol = nvm.getRootVolume()
+    snapshot = rootVol.takeSnapshot()
 
-class TestP:
-    def test_a(self):
-        assert True == True
-    def test_b(self):
-        assert True == True
-    def test_aaa(self):
-        assert True == True
+    with pytest.raises(CloudstackAPIException) as snapshotFailure:
+        nvol = snapshot.createVolume()
 
-def test_aa():
-    assert True == True
-
-def test_bb():
-    assert True == True
-
-class TestA:
-    def test_aaa(self):
-        assert True == True
-    def test_bbb(self):
-        assert True == True
-    def test_ccc(self):
-        assert True == True
+    assert snapshotFailure is not None
 
 
-def test_cc():
-    assert True == True
+
+
+
+

@@ -15,6 +15,8 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import copy
+
 from marvin.cloudstackConnection import CSConnection
 from marvin.asyncJobMgr import asyncJobMgr
 from marvin.dbConnection import DbConnection
@@ -23,9 +25,8 @@ from marvin.codes import (FAILED, PASS, ADMIN, DOMAIN_ADMIN,
                           USER, SUCCESS, XEN_SERVER)
 from marvin.configGenerator import ConfigManager
 from marvin.cloudstackException import GetDetailExceptionInfo
-from marvin.lib.utils import (random_gen, validateList)
+from marvin.lib.cloudstack.utils import (random_gen, validateList)
 from marvin.cloudstackAPI.cloudstackAPIClient import CloudStackAPIClient
-import copy
 
 
 class CSTestClient(object):

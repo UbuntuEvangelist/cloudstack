@@ -17,16 +17,14 @@
 """ P1 tests for Scaling up Vm
 """
 #Import Local Modules
-import marvin
 import pytest
+
 from marvin.cloudstackTestCase import *
 from marvin.cloudstackAPI import *
-from marvin.sshClient import SshClient
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
+from marvin.lib.cloudstack.common import *
+
 #Import System modules
-import time
 
 _multiprocess_shared_ = True
 

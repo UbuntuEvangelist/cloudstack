@@ -18,6 +18,8 @@
 """
 
 # Import Local Modules
+import random
+
 from marvin.cloudstackAPI import (listConfigurations,
                                   listPhysicalNetworks,
                                   listRegions,
@@ -57,34 +59,28 @@ from marvin.cloudstackAPI import (listConfigurations,
                                   listNetworkOfferings,
                                   listResourceLimits,
                                   listVPCOfferings)
-
-
-
-
 from marvin.sshClient import SshClient
 from marvin.codes import (PASS, FAILED, ISOLATED_NETWORK, VPC_NETWORK,
                           BASIC_ZONE, FAIL, NAT_RULE, STATIC_NAT_RULE,
                           RESOURCE_PRIMARY_STORAGE, RESOURCE_SECONDARY_STORAGE,
                           RESOURCE_CPU, RESOURCE_MEMORY)
-from marvin.lib.utils import (validateList, xsplit, get_process_status)
-from marvin.lib.base import (PhysicalNetwork,
+from marvin.lib.cloudstack.utils import (validateList, xsplit, get_process_status)
+from marvin.lib.cloudstack.network import (PhysicalNetwork,
                              PublicIPAddress,
-                             NetworkOffering,
                              NATRule,
                              StaticNATRule,
-                             Volume,
-                             Account,
-                             Project,
-                             Snapshot,
                              NetScaler,
-                             VirtualMachine,
                              FireWallRule,
-                             Template,
-                             Network,
-                             Host,
-                             Resources,
-                             Configurations)
-import random
+                             Network)
+from marvin.lib.cloudstack.volume import Volume
+from marvin.lib.cloudstack.account import Account
+from marvin.lib.cloudstack.project import Project
+from marvin.lib.cloudstack.snapshot import Snapshot
+from marvin.lib.cloudstack.vm import VirtualMachine
+from marvin.lib.cloudstack.template import Template
+from marvin.lib.cloudstack.host import Host
+from marvin.lib.cloudstack.base import Resources,Configurations
+from marvin.lib.cloudstack.networkoffering import NetworkOffering
 
 
 # Import System modules

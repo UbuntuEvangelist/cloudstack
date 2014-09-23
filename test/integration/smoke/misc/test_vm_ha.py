@@ -24,14 +24,14 @@ from marvin.cloudstackTestCase import cloudstackTestCase
 
 #Import Integration Libraries
 
-#base - contains all resources as entities and defines create, delete, list operations on them
-from marvin.lib.base import Account, VirtualMachine, Cluster, Host, ServiceOffering, Configurations, SimulatorMock
+#cloudstack - contains all resources as entities and defines create, delete, list operations on them
+from marvin.lib.cloudstack import Account, VirtualMachine, Cluster, Host, ServiceOffering, Configurations, SimulatorMock
 
 #utils - utility classes for common cleanup, external library wrappers etc
-from marvin.lib.utils import cleanup_resources, validateList
+from marvin.lib.cloudstack.utils import cleanup_resources, validateList
 
 #common - commonly used methods for all tests are listed here
-from marvin.lib.common import get_zone, get_domain, get_template
+from marvin.lib.cloudstack.common import get_zone, get_domain, get_template
 from marvin.codes import PASS
 
 import pytest

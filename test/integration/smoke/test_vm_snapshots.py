@@ -16,20 +16,23 @@
 # under the License.
 
 # Import Local Modules
-from marvin.codes import FAILED, KVM
+import time
+
 import pytest
+
+from marvin.codes import FAILED, KVM
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.cloudstackAPI import startVirtualMachine
 from marvin.lib.utils import random_gen, cleanup_resources
-from marvin.lib.base import (Account,
+from marvin.lib.cloudstack import (Account,
                              ServiceOffering,
                              VirtualMachine,
                              VmSnapshot)
-from marvin.lib.common import (get_zone,
+from marvin.lib.cloudstack.common import (get_zone,
                                get_domain,
                                get_template,
                                list_virtual_machines)
-import time
+
 
 class TestVmSnapshot(cloudstackTestCase):
 

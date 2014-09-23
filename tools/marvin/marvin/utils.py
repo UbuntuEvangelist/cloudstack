@@ -9,7 +9,7 @@ def getMarvin():
     deployDc = os.environ.get("MARVIN_DEPLOY_DC", "false")
     if deployDc in ["True", "true"]:
         deployDcb = True
-    zoneName = os.environ.get("MARVIN_ZONE_NAME", "Sandbox-simulator")
+    zoneName = getCurrentZoneName()
     hypervisor_type = os.environ.get("MARVIN_HYPERVISOR_TYPE", "simulator")
     logFolder = os.environ.get("MARVIN_LOG_FOLDER", os.path.expanduser(os.path.join("~","marvin")))
 
@@ -25,6 +25,12 @@ def getMarvin():
         return None
     else:
         return marvinObj
+
+def getCurrentZoneName():
+    return os.environ.get("MARVIN_ZONE_NAME", "Sandbox-simulator")
+
+def getHypervisorType():
+    return os.environ.get("MARVIN_HYPERVISOR_TYPE", "simulator")
 
 def initTestClass(cls, idenifier):
     marvinObj = None

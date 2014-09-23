@@ -22,17 +22,17 @@ from marvin.cloudstackAPI import (recoverVirtualMachine,
                                   destroyVirtualMachine,
                                   attachIso,
                                   detachIso)
-from marvin.lib.utils import (cleanup_resources,
+from marvin.lib.cloudstack.utils import (cleanup_resources,
                               validateList,
                               get_hypervisor_type)
-from marvin.lib.base import (Account,
+from marvin.lib.cloudstack import (Account,
                              ServiceOffering,
                              VirtualMachine,
                              Host,
                              Iso,
                              Router,
                              Configurations)
-from marvin.lib.common import (get_domain,
+from marvin.lib.cloudstack.common import (get_domain,
                                 get_zone,
                                 get_template)
 from marvin.codes import FAILED, PASS

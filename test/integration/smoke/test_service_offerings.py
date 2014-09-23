@@ -17,21 +17,22 @@
 """ BVT tests for Service offerings"""
 
 #Import Local Modules
+import pytest
+
 from marvin.codes import FAILED
 from marvin.cloudstackTestCase import cloudstackTestCase
 from marvin.cloudstackAPI import changeServiceForVirtualMachine,updateServiceOffering
 from marvin.lib.utils import (isAlmostEqual,
                                           cleanup_resources,
                                           random_gen)
-from marvin.lib.base import (ServiceOffering,
+from marvin.lib.cloudstack import (ServiceOffering,
                                          Account,
                                          VirtualMachine)
-from marvin.lib.common import (list_service_offering,
+from marvin.lib.cloudstack.common import (list_service_offering,
                                            list_virtual_machines,
                                            get_domain,
                                            get_zone,
                                            get_template)
-import pytest
 
 
 _multiprocess_shared_ = True

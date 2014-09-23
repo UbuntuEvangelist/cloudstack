@@ -21,11 +21,12 @@ import logging
 import sys
 import time
 import os
+
 from marvin.codes import (SUCCESS,
                           FAILED
                           )
 from marvin.cloudstackException import GetDetailExceptionInfo
-from marvin.lib.utils import random_gen
+from marvin.lib.cloudstack.utils import random_gen
 
 
 class MarvinLog:

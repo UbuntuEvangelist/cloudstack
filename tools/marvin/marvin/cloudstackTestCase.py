@@ -17,7 +17,7 @@
 
 import unittest
 
-from marvin.lib.utils import verifyElementInList
+from marvin.lib.cloudstack.utils import verifyElementInList
 from marvin.codes import PASS
 from marvin.utils import initTestClass
 

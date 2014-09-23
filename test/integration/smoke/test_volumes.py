@@ -23,19 +23,19 @@ from marvin.cloudstackAPI import (deleteVolume,
                                   extractVolume,
                                   resizeVolume)
 #from marvin.sshClient import SshClient
-from marvin.lib.utils import (cleanup_resources,
+from marvin.lib.cloudstack.utils import (cleanup_resources,
                               format_volume_to_ext3)
-from marvin.lib.base import (ServiceOffering,
+from marvin.lib.cloudstack import (ServiceOffering,
                              VirtualMachine,
                              Account,
                              Volume,
                              Host,
                              DiskOffering,
                              StoragePool)
-from marvin.lib.common import (get_domain,
+from marvin.lib.cloudstack.common import (get_domain,
                                 get_zone,
                                 get_template)
-from marvin.lib.utils import checkVolumeSize
+from marvin.lib.cloudstack.utils import checkVolumeSize
 from marvin.codes import SUCCESS, FAILED, XEN_SERVER
 import pytest
 #Import System modules

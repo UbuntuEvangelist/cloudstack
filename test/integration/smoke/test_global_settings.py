@@ -17,12 +17,13 @@
 """ P1 tests for updating the granular Configuration parameter with scope and resource id provided.
 """
 #Import Local Modules
+import pytest
+
 from marvin.cloudstackTestCase import *
 from marvin.cloudstackAPI import *
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import pytest
+from marvin.lib.cloudstack.common import *
+
 #Import System modules
 
 class TestUpdateConfigWithScope(cloudstackTestCase):

@@ -17,6 +17,10 @@
 """ BVT tests for Templates ISO
 """
 #Import Local Modules
+import urllib
+
+import pytest
+
 from marvin.codes import FAILED
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.cloudstackAPI import (updateTemplate,
@@ -26,17 +30,16 @@ from marvin.cloudstackAPI import (updateTemplate,
                                   deleteTemplate,
                                   copyTemplate)
 from marvin.lib.utils import random_gen, cleanup_resources
-from marvin.lib.base import (Account,
+from marvin.lib.cloudstack import (Account,
                              ServiceOffering,
                              VirtualMachine,
                              DiskOffering,
                              Template,
                              Volume)
-from marvin.lib.common import (get_domain,
+from marvin.lib.cloudstack.common import (get_domain,
                                get_zone,
                                get_template)
-import pytest
-import urllib
+
 #Import System modules
 import time
 

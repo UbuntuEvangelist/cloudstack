@@ -15,17 +15,19 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.base import (ServiceOffering,
-                                         VirtualMachine,
-                                         Account)
-from marvin.lib.common import get_template, get_zone, list_virtual_machines
-from marvin.lib.utils import cleanup_resources
-
-from marvin.codes import FAILED
 import random
 import string
+
 import pytest
+
+from marvin.cloudstackTestCase import cloudstackTestCase
+from marvin.lib.cloudstack import (ServiceOffering,
+                                         VirtualMachine,
+                                         Account)
+from marvin.lib.cloudstack.common import get_template, get_zone, list_virtual_machines
+from marvin.lib.utils import cleanup_resources
+from marvin.codes import FAILED
+
 
 class TestDeployVmWithUserData(cloudstackTestCase):
     """Tests for UserData

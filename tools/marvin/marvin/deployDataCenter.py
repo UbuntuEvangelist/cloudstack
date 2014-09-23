@@ -25,19 +25,20 @@ class DeleteDataCenters: Deletes a DataCenter based upon the dc cfg
                          configuration from DeployDataCenters post
                          its success
 """
+from sys import exit
+import os
+import pickle
+from time import sleep, strftime, localtime
+from optparse import OptionParser
+
 from marvin import configGenerator
 from marvin.cloudstackException import (
     InvalidParameterException,
     GetDetailExceptionInfo)
 from marvin.cloudstackAPI import *
 from marvin.codes import (FAILED, SUCCESS)
-from marvin.lib.utils import (random_gen)
+from marvin.lib.cloudstack.utils import (random_gen)
 from marvin.config.test_data import test_data
-from sys import exit
-import os
-import pickle
-from time import sleep, strftime, localtime
-from optparse import OptionParser
 
 
 class DeployDataCenters(object):

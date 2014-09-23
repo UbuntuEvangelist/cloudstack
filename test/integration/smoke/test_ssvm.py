@@ -17,15 +17,15 @@
 """ BVT tests for SSVM
 """
 #Import Local Modules
-import marvin
+import telnetlib
+
+import pytest
+
 from marvin.cloudstackTestCase import *
 from marvin.cloudstackAPI import *
-from marvin.sshClient import SshClient
 from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-import pytest
-import telnetlib
+from marvin.lib.cloudstack.common import *
+
 
 #Import System modules
 import time

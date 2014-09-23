@@ -18,28 +18,12 @@ import pytest
 import os
 
 from marvin.utils import initTestClass,getMarvin
-from .VM import (vm,tiny_service_offering,template,test_client,account,domain,zone)
-
+from .fixtures.vm import vm,api_client,test_client,zone,domain,tiny_service_offering,template,domain,account
 def pytest_configure(config):
     config.addinivalue_line("markers",
         "tags(name): tag tests")
 
     marvin_init_tags()
-
-def pytest_collection_finish(session):
-    units = []
-    for item in session.items:
-        if item.instance is None and item.cls is None:
-            units.append(item.nodeid)
-        elif item.instance is not None:
-            instance = item.instance
-            name = instance.__module__ + ":" + instance.__class__.__name__
-            units.append(name)
-        else:
-            name = item.cls
-            units.append(name)
-
-    print units
 
 g_marvin_filter = {
     "tags":[],
@@ -51,13 +35,16 @@ def tobool(str):
     else:
         return False
 def marvin_init_tags():
-    tags = os.environ.get("MARVIN_TAGS", "advanced,required_hardware=false").split(",")
+    tags = os.environ.get("MARVIN_TAGS", "advanced,required_hardware=false,hypervisors=simulator").split(",")
     global g_marvin_filter
     for t in tags:
         if t.startswith("required_hardware"):
             g_marvin_filter["required_hardware"] = t.split("=")[1]
+        elif t.startswith("hypervisors"):
+            g_marvin_filter["hypervisors"] = [t.split("=")[1]]
         else:
             g_marvin_filter["tags"].append(t)
+
 
 def pytest_runtest_setup(item):
     global g_marvin_filter
@@ -68,6 +55,14 @@ def pytest_runtest_setup(item):
     if "required_hardware" in attrmarker.kwargs:
         if attrmarker.kwargs["required_hardware"] != g_marvin_filter["required_hardware"]:
             pytest.skip("doesnt match hardware")
+    elif "hypervisor_in" in attrmarker.kwargs:
+        found = False
+        for t in attrmarker.kwargs["hypervisor_in"]:
+            if t in g_marvin_filter["hypervisors"]:
+                found = True
+                break
+        if found is False:
+            pytest.skip("hypervisor doesn't match:" + str(attrmarker.kwargs["hypervisor_in"]))
     elif "tags" in attrmarker.kwargs:
         found = False
         for t in attrmarker.kwargs["tags"]:
@@ -80,8 +75,6 @@ def pytest_runtest_setup(item):
 @pytest.fixture(scope="session", autouse=True)
 def marvin_init_session():
     result = getMarvin()
-    logger = result.getLogger()
-    logger.debug("in session")
     if result is None:
         pytest.fail("failed to init marvin plugin")
 
@@ -99,8 +92,6 @@ def marvin_init_function(request):
     if request.cls is not None:
         return
     marvinObj = getMarvin()
-    logger = marvinObj.getLogger()
-    #logger.debug("in function")
 
     setattr(request.node, "testClient", marvinObj.getTestClient())
 

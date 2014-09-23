@@ -16,14 +16,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from marvin.codes import FAILED
-from marvin.cloudstackTestCase import *
-from marvin.cloudstackAPI import *
-from marvin.lib.utils import *
-from marvin.lib.base import *
-from marvin.lib.common import *
-from marvin.sshClient import SshClient
 import pytest
+
+from marvin.cloudstackTestCase import *
+from marvin.lib.utils import *
+from marvin.lib.cloudstack.common import *
+
 
 class TestDeployVmWithAffinityGroup(cloudstackTestCase):
     """
